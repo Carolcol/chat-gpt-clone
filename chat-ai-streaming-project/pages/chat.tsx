@@ -1,24 +1,23 @@
 "use client";
 
-import { useChat } from "ai/react";
+import styled from "styled-components";
+import ChatWindow from "./components/ChatWindow";
+import ChatHistorySideBar from "./components/ChatHistorySideBar";
+
+const Container = styled.div`
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+`;
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
-
   return (
-    <div>
-      {messages.map((m) => (
-        <div key={m.id}>
-          {m.role}: {m.content}
-        </div>
-      ))}
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Say something...
-          <input value={input} onChange={handleInputChange} />
-        </label>
-      </form>
-    </div>
+    <Container>
+      <ChatHistorySideBar />
+      <ChatWindow />
+    </Container>
   );
 }
