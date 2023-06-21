@@ -1,7 +1,19 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useChat } from "ai/react";
 import React, { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+const flickerAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
 
 const ChatArea = styled.div`
   border: 1px solid black;
@@ -23,6 +35,13 @@ const Messages = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const Cursor = styled.svg`
+  display: inline-block;
+  width: 1ch;
+  animation: ${flickerAnimation} 0.5s infinite;
+  margin-bottom: -2.5px;
 `;
 
 const ChatWindow = () => {
@@ -47,6 +66,9 @@ const ChatWindow = () => {
         {messages.map((m) => (
           <div key={m.id} ref={messageEl}>
             {m.role}: {m.content}
+            <Cursor viewBox="8 4 8 16" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="6" width="4" height="12" fill="#292828" />
+            </Cursor>
           </div>
         ))}
       </Messages>
