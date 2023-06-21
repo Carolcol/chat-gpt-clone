@@ -39,13 +39,18 @@ const Messages = styled.div`
 
 type CursorProps = {
   isFlickering: boolean;
+  isAssistant: boolean;
+  isLastMessage: boolean;
 };
 
 const Cursor = styled.svg<CursorProps>`
   width: 1ch;
   animation: ${flickerAnimation} 0.5s infinite;
   margin-bottom: -2.5px;
-  display: ${(props) => (props.isFlickering ? "inline-block" : "none")};
+  display: ${(props) =>
+    props.isFlickering && props.isAssistant && props.isLastMessage
+      ? "inline-block"
+      : "none"};
 `;
 
 const ChatWindow = () => {
@@ -62,7 +67,7 @@ const ChatWindow = () => {
 
     const timeoutId = setTimeout(() => {
       setIsFlickering(false);
-    }, 1000);
+    }, 1300);
 
     return () => {
       clearTimeout(timeoutId);
@@ -77,11 +82,13 @@ const ChatWindow = () => {
   return (
     <ChatArea>
       <Messages ref={messagesContainerEl}>
-        {messages.map((m) => (
+        {messages.map((m, index) => (
           <div key={m.id} ref={messageEl}>
             {m.role}: {m.content}
             <Cursor
+              isLastMessage={index === messages.length - 1}
               isFlickering={isFlickering}
+              isAssistant={m.role === "assistant"}
               viewBox="8 4 8 16"
               xmlns="http://www.w3.org/2000/svg"
             >
