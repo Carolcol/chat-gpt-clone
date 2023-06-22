@@ -38,26 +38,27 @@ const Messages = styled.div`
 `;
 
 type CursorProps = {
-  isFlickering: boolean;
-  isAssistant: boolean;
-  isLastMessage: boolean;
+  isFlickerActive: boolean;
 };
 
 const Cursor = styled.svg<CursorProps>`
   width: 1ch;
   animation: ${flickerAnimation} 0.5s infinite;
   margin-bottom: -2.5px;
-  display: ${(props) =>
-    props.isFlickering && props.isAssistant && props.isLastMessage
-      ? "inline-block"
-      : "none"};
+  display: ${(props) => (props.isFlickerActive ? "inline-block" : "none")};
 `;
-
+type Message = {
+  content?: string;
+  role: string;
+  id?: string;
+};
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append } = useChat();
+  const [messagesCopy, setMessagesCopy] = useState<Message[]>(messages);
   const messagesContainerEl = useRef<HTMLDivElement>(null);
-  const messageEl = useRef<HTMLDivElement>(null);
+  const MessageSlot = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const element = messagesContainerEl.current;
     if (element) {
@@ -72,28 +73,31 @@ const ChatWindow = () => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [messages, setIsFlickering]);
-
+  }, [messages]);
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setMessagesCopy([
+      ...messages,
+      { content: input, role: "user", id: uuidv4() },
+      { role: "assistant", id: uuidv4() },
+    ]);
+
     append({ content: input, role: "user", id: uuidv4() });
   };
 
   return (
     <ChatArea>
       <Messages ref={messagesContainerEl}>
-        {messages.map((m, index) => (
-          <div key={m.id} ref={messageEl}>
-            {m.role}: {m.content}
-            <Cursor
-              isLastMessage={index === messages.length - 1}
+        {messagesCopy.map((m, index) => (
+          <div ref={MessageSlot} key={m.id}>
+            {m.role} :{messages[index]?.content}
+            <Flicker
               isFlickering={isFlickering}
-              isAssistant={m.role === "assistant"}
-              viewBox="8 4 8 16"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect x="10" y="6" width="4" height="12" fill="#292828" />
-            </Cursor>
+              isAssistantNewMessage={
+                m.role === "assistant" && index === messagesCopy.length - 1
+              }
+            />
           </div>
         ))}
       </Messages>
@@ -103,6 +107,30 @@ const ChatWindow = () => {
         </form>
       </UserInputContainer>
     </ChatArea>
+  );
+};
+
+type FlickerProps = {
+  isFlickering: boolean;
+  isAssistantNewMessage?: boolean;
+  isLoadingData?: boolean;
+};
+
+const Flicker: React.FC<FlickerProps> = ({
+  isFlickering,
+  isAssistantNewMessage,
+  isLoadingData,
+}) => {
+  var isFlickerActive =
+    (isFlickering && !!isAssistantNewMessage) || !!isLoadingData;
+  return (
+    <Cursor
+      isFlickerActive={isFlickerActive}
+      viewBox="8 4 8 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="10" y="6" width="4" height="12" fill="#292828" />
+    </Cursor>
   );
 };
 
