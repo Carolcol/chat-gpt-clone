@@ -11,6 +11,7 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
+  font-family: "Roboto", sans-serif;
 `;
 
 export default function Chat() {
