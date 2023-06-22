@@ -29,6 +29,16 @@ const UserInputContainer = styled.div`
   bottom: 0;
 `;
 
+type MessageTextProps = {
+  isAssistant: boolean;
+};
+
+const MessageText = styled.div<MessageTextProps>`
+  background-color: ${(props) =>
+    props.isAssistant ? "rgba(247,247,248)" : "#ffffff"};
+  height: 60px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+`;
 const Messages = styled.div`
   border: 1px solid black;
   overflow: auto;
@@ -90,7 +100,11 @@ const ChatWindow = () => {
     <ChatArea>
       <Messages ref={messagesContainerEl}>
         {messagesCopy.map((m, index) => (
-          <div ref={MessageSlot} key={m.id}>
+          <MessageText
+            ref={MessageSlot}
+            key={m.id}
+            isAssistant={m.role === "assistant"}
+          >
             {m.role} :{messages[index]?.content}
             <Flicker
               isFlickering={isFlickering}
@@ -98,7 +112,7 @@ const ChatWindow = () => {
                 m.role === "assistant" && index === messagesCopy.length - 1
               }
             />
-          </div>
+          </MessageText>
         ))}
       </Messages>
       <UserInputContainer>
