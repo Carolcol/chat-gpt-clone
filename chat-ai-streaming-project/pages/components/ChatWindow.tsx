@@ -36,8 +36,12 @@ type MessageTextProps = {
 const MessageText = styled.div<MessageTextProps>`
   background-color: ${(props) =>
     props.isAssistant ? "rgba(247,247,248)" : "#ffffff"};
-  height: 60px;
+  min-height: 50px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  display: flex;
+  justify-content: center;
+  height: auto;
+  padding: 10px;
 `;
 const Messages = styled.div`
   overflow: auto;
@@ -62,8 +66,12 @@ const Input = styled.input`
   }
   padding: 8px;
   ::placeholder {
-    color: #999; /* Cor do placeholder */
+    color: #999;
   }
+`;
+
+const Text = styled.div`
+  width: 400px;
 `;
 
 const Form = styled.form`
@@ -123,13 +131,17 @@ const ChatWindow = () => {
             key={m.id}
             isAssistant={m.role === "assistant"}
           >
-            {m.role} :{messages[index]?.content}
-            <Flicker
-              isFlickering={isFlickering}
-              isAssistantNewMessage={
-                m.role === "assistant" && index === messagesCopy.length - 1
-              }
-            />
+            <Text>
+              <span>
+                {m.role} :{messages[index]?.content}
+                <Flicker
+                  isFlickering={isFlickering}
+                  isAssistantNewMessage={
+                    m.role === "assistant" && index === messagesCopy.length - 1
+                  }
+                />
+              </span>
+            </Text>
           </MessageText>
         ))}
       </Messages>
