@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { useChat } from "ai/react";
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import gptIcon from "../../public/download.jpg";
 
 const flickerAnimation = keyframes`
   0% {
@@ -16,7 +17,6 @@ const flickerAnimation = keyframes`
 `;
 
 const ChatArea = styled.div`
-  position: relative;
   display: grid;
   grid-template-rows: 2fr 0.5fr;
   flex: 6;
@@ -42,6 +42,8 @@ const MessageText = styled.div<MessageTextProps>`
   justify-content: center;
   height: auto;
   padding: 10px;
+  font-size: 13px;
+  color: #4a4949;
 `;
 const Messages = styled.div`
   overflow: auto;
@@ -72,6 +74,7 @@ const Input = styled.input`
 
 const Text = styled.div`
   width: 400px;
+  display: flex;
 `;
 
 const Form = styled.form`
@@ -88,6 +91,10 @@ type Message = {
   role: string;
   id?: string;
 };
+
+const Message = styled.span`
+  margin-left: 11px;
+`;
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append } = useChat();
@@ -132,15 +139,16 @@ const ChatWindow = () => {
             isAssistant={m.role === "assistant"}
           >
             <Text>
-              <span>
-                {m.role} :{messages[index]?.content}
+              <div>{m.role === "assistant" ? <Icon /> : m.role + ":"}</div>
+              <Message>
+                {messages[index]?.content}
                 <Flicker
                   isFlickering={isFlickering}
                   isAssistantNewMessage={
                     m.role === "assistant" && index === messagesCopy.length - 1
                   }
                 />
-              </span>
+              </Message>
             </Text>
           </MessageText>
         ))}
@@ -156,6 +164,13 @@ const ChatWindow = () => {
       </UserInputContainer>
     </ChatArea>
   );
+};
+
+const GptChatIcon = styled.img`
+  height: 22px;
+`;
+const Icon = () => {
+  return <GptChatIcon src={gptIcon.src} alt="chat gpt icon" />;
 };
 
 type FlickerProps = {
