@@ -16,7 +16,6 @@ const flickerAnimation = keyframes`
 `;
 
 const ChatArea = styled.div`
-  border: 1px solid black;
   position: relative;
   display: grid;
   grid-template-rows: 2fr 0.5fr;
@@ -24,9 +23,10 @@ const ChatArea = styled.div`
 `;
 
 const UserInputContainer = styled.div`
-  border: 1px solid black;
-  position: absolute;
   bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 type MessageTextProps = {
@@ -40,7 +40,6 @@ const MessageText = styled.div<MessageTextProps>`
   border-bottom: 1px solid rgba(128, 128, 128, 0.1);
 `;
 const Messages = styled.div`
-  border: 1px solid black;
   overflow: auto;
   ::-webkit-scrollbar {
     display: none;
@@ -51,6 +50,25 @@ type CursorProps = {
   isFlickerActive: boolean;
 };
 
+const Input = styled.input`
+  height: 25px;
+  overflow-y: hidden;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  :focus {
+    outline: none;
+  }
+  padding: 8px;
+  ::placeholder {
+    color: #999; /* Cor do placeholder */
+  }
+`;
+
+const Form = styled.form`
+  width: 35rem;
+`;
 const Cursor = styled.svg<CursorProps>`
   width: 1ch;
   animation: ${flickerAnimation} 0.5s infinite;
@@ -116,9 +134,13 @@ const ChatWindow = () => {
         ))}
       </Messages>
       <UserInputContainer>
-        <form onSubmit={handleInputSubmit}>
-          <input value={input} onChange={handleInputChange} />
-        </form>
+        <Form onSubmit={handleInputSubmit}>
+          <Input
+            placeholder="Send a message"
+            value={input}
+            onChange={handleInputChange}
+          />
+        </Form>
       </UserInputContainer>
     </ChatArea>
   );
