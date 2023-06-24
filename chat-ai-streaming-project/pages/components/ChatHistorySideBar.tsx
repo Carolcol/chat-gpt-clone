@@ -40,6 +40,29 @@ const HideSideBar = styled.div`
   width: 31px;
 `;
 
+const Date = styled.div`
+  color: #bebebe;
+  padding: 10px;
+  font-size: 11px;
+`;
+
+const ChatHistory = styled.div`
+  color: rgb(255, 255, 255);
+  background-color: #575757;
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 12px;
+  height: 20px;
+`;
+
+const Chat = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ChatName = styled.span`
+  margin-left: 8px;
+`;
 const ChatHistorySideBar = () => {
   return (
     <SideBarNav>
@@ -55,8 +78,34 @@ const ChatHistorySideBar = () => {
         </NewChat>
         <HideSideBar>x</HideSideBar>
       </SideBarHeader>
+      <Date>
+        <span>Today</span>
+      </Date>
+      <ChatHistory>
+        <Chat>
+          <svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              stroke="#ECECF1"
+              fill="none"
+              strokeWidth="2px"
+            ></path>
+          </svg>
+          <ChatName>New chat</ChatName>
+        </Chat>
+      </ChatHistory>
     </SideBarNav>
   );
 };
-
 export default ChatHistorySideBar;
