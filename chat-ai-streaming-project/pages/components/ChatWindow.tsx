@@ -3,6 +3,7 @@ import { useChat } from "ai/react";
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import gptIcon from "../../public/download.jpg";
+import userIcon from "../../public/user-icon.png";
 
 const flickerAnimation = keyframes`
   0% {
@@ -23,7 +24,6 @@ const ChatArea = styled.div`
 `;
 
 const UserInputContainer = styled.div`
-  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,6 +95,20 @@ type Message = {
 const Message = styled.span`
   margin-left: 11px;
 `;
+
+const InputIcon = styled.div`
+  position: absolute;
+  color: #c8c8c8;
+  width: 13px;
+  right: 2px;
+  top: 13px;
+`;
+
+const UserInputWrapper = styled.div`
+  position: relative;
+  width: 35rem;
+`;
+
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append } = useChat();
@@ -139,7 +153,9 @@ const ChatWindow = () => {
             isAssistant={m.role === "assistant"}
           >
             <Text>
-              <div>{m.role === "assistant" ? <Icon /> : m.role + ":"}</div>
+              <div>
+                <Icon role={m.role} />
+              </div>
               <Message>
                 {messages[index]?.content}
                 <Flicker
@@ -154,13 +170,28 @@ const ChatWindow = () => {
         ))}
       </Messages>
       <UserInputContainer>
-        <Form onSubmit={handleInputSubmit}>
-          <Input
-            placeholder="Send a message"
-            value={input}
-            onChange={handleInputChange}
-          />
-        </Form>
+        <UserInputWrapper>
+          <Form onSubmit={handleInputSubmit}>
+            <Input
+              placeholder="Send a message"
+              value={input}
+              onChange={handleInputChange}
+            />
+            <InputIcon>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke-width="2"
+              >
+                <path
+                  d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </InputIcon>
+          </Form>
+        </UserInputWrapper>
       </UserInputContainer>
     </ChatArea>
   );
@@ -169,8 +200,17 @@ const ChatWindow = () => {
 const GptChatIcon = styled.img`
   height: 22px;
 `;
-const Icon = () => {
-  return <GptChatIcon src={gptIcon.src} alt="chat gpt icon" />;
+
+type IconProps = {
+  role: string;
+};
+const Icon: React.FC<IconProps> = ({ role }) => {
+  return (
+    <GptChatIcon
+      src={role === "assistant" ? gptIcon.src : userIcon.src}
+      alt="chat gpt icon"
+    />
+  );
 };
 
 type FlickerProps = {
