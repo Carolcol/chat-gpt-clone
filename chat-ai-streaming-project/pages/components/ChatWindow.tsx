@@ -113,6 +113,10 @@ const UserInputWrapper = styled.div`
   width: 35rem;
 `;
 
+const Txt = styled.p`
+  display: inline;
+`;
+
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append } = useChat();
@@ -165,7 +169,7 @@ const ChatWindow = () => {
                   children={messages[index]?.content}
                   components={{
                     p({ children }) {
-                      return <p>{children}</p>;
+                      return <Txt>{children}</Txt>;
                     },
                     code({ node, inline, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || "");
