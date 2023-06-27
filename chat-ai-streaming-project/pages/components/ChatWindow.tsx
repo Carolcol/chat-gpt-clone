@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import gptIcon from "../../public/download.jpg";
 import userIcon from "../../public/user-icon.png";
+import ReactMarkdown from "react-markdown";
+import { CodeBlock } from "./CodeBlock";
 
 const flickerAnimation = keyframes`
   0% {
@@ -157,7 +159,34 @@ const ChatWindow = () => {
                 <Icon role={m.role} />
               </div>
               <Message>
-                {messages[index]?.content}
+                <ReactMarkdown
+                  children={messages[index]?.content}
+                  components={{
+                    p({ children }) {
+                      return <p>{children}</p>;
+                    },
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+
+                      if (inline) {
+                        return (
+                          <code className={className} {...props}>
+                            {children}
+                          </code>
+                        );
+                      }
+
+                      return (
+                        <CodeBlock
+                          key={Math.random()}
+                          language={(match && match[1]) || ""}
+                          value={String(children).replace(/\n$/, "")}
+                          {...props}
+                        />
+                      );
+                    },
+                  }}
+                />
                 <Flicker
                   isFlickering={isFlickering}
                   isAssistantNewMessage={
