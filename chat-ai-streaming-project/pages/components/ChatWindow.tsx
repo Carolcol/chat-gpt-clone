@@ -35,7 +35,7 @@ type MessageTextProps = {
   isAssistant: boolean;
 };
 
-const MessageText = styled.div<MessageTextProps>`
+const MessageWrapper = styled.div<MessageTextProps>`
   background-color: ${(props) =>
     props.isAssistant ? "rgba(247,247,248)" : "#ffffff"};
   min-height: 50px;
@@ -74,9 +74,10 @@ const Input = styled.input`
   }
 `;
 
-const Text = styled.div`
-  width: 400px;
+const MessageContent = styled.div`
+  width: 700px;
   display: flex;
+  margin-right: 153px;
 `;
 
 const Form = styled.form`
@@ -96,6 +97,7 @@ type Message = {
 
 const Message = styled.span`
   margin-left: 11px;
+  margin-top: -10px;
 `;
 
 const InputIcon = styled.div`
@@ -149,12 +151,12 @@ const ChatWindow = () => {
     <ChatArea>
       <Messages ref={messagesContainerEl}>
         {messagesCopy.map((m, index) => (
-          <MessageText
+          <MessageWrapper
             ref={MessageSlot}
             key={m.id}
             isAssistant={m.role === "assistant"}
           >
-            <Text>
+            <MessageContent>
               <div>
                 <Icon role={m.role} />
               </div>
@@ -194,8 +196,8 @@ const ChatWindow = () => {
                   }
                 />
               </Message>
-            </Text>
-          </MessageText>
+            </MessageContent>
+          </MessageWrapper>
         ))}
       </Messages>
       <UserInputContainer>
@@ -233,6 +235,7 @@ const GptChatIcon = styled.img`
 type IconProps = {
   role: string;
 };
+
 const Icon: React.FC<IconProps> = ({ role }) => {
   return (
     <GptChatIcon
