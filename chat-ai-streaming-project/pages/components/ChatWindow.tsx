@@ -49,10 +49,6 @@ const Messages = styled.div`
   }
 `;
 
-type CursorProps = {
-  isFlickerActive: boolean;
-};
-
 const Input = styled.input`
   height: 25px;
   overflow-y: hidden;
@@ -77,12 +73,15 @@ const MessageContent = styled.div`
 const Form = styled.form`
   width: 35rem;
 `;
-const Cursor = styled.svg<CursorProps>`
-  width: 1ch;
-  animation: ${flickerAnimation} 0.5s infinite;
-  margin-bottom: -2.5px;
-  display: ${(props) => (props.isFlickerActive ? "inline-block" : "none")};
+
+const Cursor = styled.svg`
+  height: 100%;
+  width: 8px;
+  background-color: #292828;
+  animation: ${flickerAnimation} 1s infinite;
+  animation-fill-mode: forwards;
 `;
+
 type Message = {
   content?: string;
   role: string;
@@ -171,6 +170,12 @@ const ChatWindow = () => {
                 <Icon role={m.role} />
               </div>
               <Message>
+                <p>
+                  {m.role === "assistant" && !messages[index]?.content ? (
+                    <Flicker />
+                  ) : null}
+                </p>
+
                 <ReactMarkdown
                   children={messages[index]?.content}
                   components={{
@@ -256,25 +261,9 @@ const Icon: React.FC<IconProps> = ({ role }) => {
   );
 };
 
-type FlickerProps = {
-  isFlickering: boolean;
-  isAssistantNewMessage?: boolean;
-  isLoadingData?: boolean;
-};
-
-const Flicker: React.FC<FlickerProps> = ({
-  isFlickering,
-  isAssistantNewMessage,
-  isLoadingData,
-}) => {
-  var isFlickerActive =
-    (isFlickering && !!isAssistantNewMessage) || !!isLoadingData;
+const Flicker: React.FC = () => {
   return (
-    <Cursor
-      isFlickerActive={isFlickerActive}
-      viewBox="8 4 8 16"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <Cursor viewBox="8 4 8 16" xmlns="http://www.w3.org/2000/svg">
       <rect x="10" y="6" width="4" height="12" fill="#292828" />
     </Cursor>
   );
