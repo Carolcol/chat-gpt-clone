@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+
 import { useChat } from "ai/react";
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -8,15 +9,9 @@ import ReactMarkdown from "react-markdown";
 import { CodeBlock } from "./CodeBlock";
 
 const flickerAnimation = keyframes`
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 `;
 
 const ChatArea = styled.div`
@@ -113,10 +108,22 @@ const UserInputWrapper = styled.div`
   width: 35rem;
 `;
 
-const Txt = styled.p`
-  display: inline;
+const FlickeringTxt = styled.p`
+  position: relative;
+  :last-of-type::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 8px;
+    background-color: #292828;
+    animation: ${flickerAnimation} 1s infinite;
+    animation-fill-mode: forwards;
+  }
 `;
 
+const Txt = styled.p`
+  position: relative;
+`;
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append } = useChat();
@@ -169,7 +176,14 @@ const ChatWindow = () => {
                   children={messages[index]?.content}
                   components={{
                     p({ children }) {
-                      return <Txt>{children}</Txt>;
+                      const lastIndex = messages.length - 1;
+                      return index === lastIndex &&
+                        m.role === "assistant" &&
+                        isFlickering ? (
+                        <FlickeringTxt>{children}</FlickeringTxt>
+                      ) : (
+                        <Txt>{children}</Txt>
+                      );
                     },
                     code({ node, inline, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || "");
@@ -192,12 +206,6 @@ const ChatWindow = () => {
                       );
                     },
                   }}
-                />
-                <Flicker
-                  isFlickering={isFlickering}
-                  isAssistantNewMessage={
-                    m.role === "assistant" && index === messagesCopy.length - 1
-                  }
                 />
               </Message>
             </MessageContent>
