@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const SideBarNav = styled.div`
-  flex: 1;
   padding: 4px;
+  width: 200px;
   background-color: #1d2022;
 `;
 
