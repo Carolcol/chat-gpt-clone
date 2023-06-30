@@ -124,7 +124,7 @@ const Txt = styled.p`
 `;
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
-  const { messages, input, handleInputChange, append } = useChat();
+  const { messages, input, handleInputChange, append, setInput } = useChat();
   const [messagesCopy, setMessagesCopy] = useState<Message[]>(messages);
   const messagesContainerEl = useRef<HTMLDivElement>(null);
   const MessageSlot = useRef<HTMLDivElement>(null);
@@ -154,6 +154,7 @@ const ChatWindow = () => {
     ]);
 
     append({ content: input, role: "user", id: uuidv4() });
+    setInput("");
   };
 
   return (
