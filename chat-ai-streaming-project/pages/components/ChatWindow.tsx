@@ -106,10 +106,14 @@ const UserInputWrapper = styled.div`
   width: 35rem;
 `;
 
-const FlickeringTxt = styled.p`
+type FlickeringTxtProps = {
+  isTypingCode: boolean;
+};
+const FlickeringTxt = styled.p<FlickeringTxtProps>`
   position: relative;
   :last-of-type::after {
     content: "";
+    display: ${(props) => (props.isTypingCode ? "none" : "inline")};
     position: absolute;
     height: 100%;
     width: 8px;
@@ -128,6 +132,7 @@ const ChatWindow = () => {
   const [messagesCopy, setMessagesCopy] = useState<Message[]>(messages);
   const messagesContainerEl = useRef<HTMLDivElement>(null);
   const MessageSlot = useRef<HTMLDivElement>(null);
+  const [isTypingCode, setIsTypingCode] = useState(false);
 
   useEffect(() => {
     const element = messagesContainerEl.current;
@@ -181,11 +186,14 @@ const ChatWindow = () => {
                   children={messages[index]?.content}
                   components={{
                     p({ children }) {
+                      setIsTypingCode(false);
                       const lastIndex = messages.length - 1;
                       return index === lastIndex &&
                         m.role === "assistant" &&
                         isFlickering ? (
-                        <FlickeringTxt>{children}</FlickeringTxt>
+                        <FlickeringTxt isTypingCode={isTypingCode}>
+                          {children}
+                        </FlickeringTxt>
                       ) : (
                         <Txt>{children}</Txt>
                       );
@@ -200,6 +208,7 @@ const ChatWindow = () => {
                           </code>
                         );
                       }
+                      setIsTypingCode(true);
 
                       return (
                         <CodeBlock
