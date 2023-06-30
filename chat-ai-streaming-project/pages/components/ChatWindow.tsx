@@ -72,7 +72,6 @@ const Input = styled.input`
 const MessageContent = styled.div`
   width: 700px;
   display: flex;
-  margin-right: 153px;
 `;
 
 const Form = styled.form`
