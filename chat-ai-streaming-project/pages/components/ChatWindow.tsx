@@ -66,7 +66,8 @@ const Input = styled.input`
 `;
 
 const MessageContent = styled.div`
-  width: 700px;
+  width: 600px;
+  overflow-wrap: break-word;
   display: flex;
 `;
 
