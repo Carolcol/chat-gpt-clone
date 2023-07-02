@@ -135,6 +135,45 @@ const FlickeringTxt = styled.p<FlickeringTxtProps>`
 const Txt = styled.p`
   position: relative;
 `;
+
+type UserInputProps = {
+  handleInputSubmit: (e: any) => void;
+  handleInputChange: (e: any) => void;
+  input: string;
+};
+
+const UserInput: React.FC<UserInputProps> = ({
+  handleInputSubmit,
+  handleInputChange,
+  input,
+}) => {
+  return (
+    <UserInputContainer>
+      <UserInputWrapper>
+        <Form onSubmit={handleInputSubmit}>
+          <Input
+            placeholder="Send a message"
+            value={input}
+            onChange={handleInputChange}
+          />
+          <InputIcon>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke-width="2"
+            >
+              <path
+                d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </InputIcon>
+        </Form>
+      </UserInputWrapper>
+    </UserInputContainer>
+  );
+};
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append, setInput } = useChat();
@@ -217,30 +256,11 @@ const ChatWindow = () => {
           </MessageWrapper>
         ))}
       </Messages>
-      <UserInputContainer>
-        <UserInputWrapper>
-          <Form onSubmit={handleInputSubmit}>
-            <Input
-              placeholder="Send a message"
-              value={input}
-              onChange={handleInputChange}
-            />
-            <InputIcon>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke-width="2"
-              >
-                <path
-                  d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </InputIcon>
-          </Form>
-        </UserInputWrapper>
-      </UserInputContainer>
+      <UserInput
+        handleInputSubmit={handleInputSubmit}
+        handleInputChange={handleInputChange}
+        input={input}
+      />
     </ChatArea>
   );
 };
