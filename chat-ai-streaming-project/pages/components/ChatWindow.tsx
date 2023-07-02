@@ -38,7 +38,7 @@ const MessageWrapper = styled.div<MessageTextProps>`
   display: flex;
   justify-content: center;
   height: auto;
-  padding: 10px;
+  padding: 17px;
   font-size: 13px;
   color: #4a4949;
 `;
@@ -53,9 +53,9 @@ const Input = styled.input`
   height: 27px;
   overflow-y: hidden;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 7px;
   border: 1px solid rgba(128, 128, 128, 0.3);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   :focus {
     outline: none;
   }
@@ -69,11 +69,12 @@ const MessageContent = styled.div`
   width: 600px;
   overflow-wrap: break-word;
   display: flex;
+  margin-right: 15px;
 `;
 
 const Form = styled.form`
   position: relative;
-  width: 580px;
+  width: 610px;
   margin-top: 57px;
 `;
 
@@ -92,7 +93,7 @@ type Message = {
 };
 
 const Message = styled.span`
-  margin-left: 11px;
+  margin-left: 16px;
   margin-top: -10px;
 `;
 

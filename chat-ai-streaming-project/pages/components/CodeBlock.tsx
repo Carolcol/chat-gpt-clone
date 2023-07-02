@@ -9,7 +9,7 @@ interface Props {
 }
 
 const CodeContainer = styled.div`
-  max-width: 600px;
+  max-width: 570px;
   overflow-x: auto;
 `;
 
