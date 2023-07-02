@@ -18,12 +18,13 @@ const ChatArea = styled.div`
   display: grid;
   grid-template-rows: 2fr 0.5fr;
   flex: 6;
+  height: 100vh;
 `;
 
 const UserInputContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 type MessageTextProps = {
@@ -63,6 +64,7 @@ const Input = styled.input`
   ::placeholder {
     color: #999;
   }
+  margin-bottom: 40px;
 `;
 
 const MessageContent = styled.div`
@@ -106,7 +108,6 @@ const InputIcon = styled.div`
 `;
 
 const UserInputWrapper = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
