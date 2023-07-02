@@ -2,6 +2,7 @@ import { FC, memo, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import styled from "styled-components";
+import { useCopyToClipBoard } from "../lib/hooks/use-copy-to-clipboard";
 
 interface Props {
   language: string;
@@ -44,14 +45,7 @@ type CopyCodeProps = {
 };
 
 const CopyCode: React.FC<CopyCodeProps> = ({ value }) => {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(value);
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 2000);
-  };
+  const { isCopied, copyToClipboard } = useCopyToClipBoard({ value });
   return isCopied ? (
     <CopyCodeBtn>
       <svg
