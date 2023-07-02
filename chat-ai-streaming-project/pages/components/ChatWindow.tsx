@@ -50,7 +50,7 @@ const Messages = styled.div`
 `;
 
 const Input = styled.input`
-  height: 25px;
+  height: 27px;
   overflow-y: hidden;
   width: 100%;
   border-radius: 5px;
@@ -72,7 +72,9 @@ const MessageContent = styled.div`
 `;
 
 const Form = styled.form`
-  width: 35rem;
+  position: relative;
+  width: 580px;
+  margin-top: 57px;
 `;
 
 const Cursor = styled.svg`
@@ -104,7 +106,9 @@ const InputIcon = styled.div`
 
 const UserInputWrapper = styled.div`
   position: relative;
-  width: 35rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 type FlickeringTxtProps = {
@@ -116,7 +120,7 @@ const FlickeringTxt = styled.p<FlickeringTxtProps>`
     content: "";
     display: ${(props) => (props.isTypingCode ? "none" : "inline")};
     position: absolute;
-    height: 100%;
+    height: 14px;
     width: 8px;
     background-color: #292828;
     animation: ${flickerAnimation} 1s infinite;
