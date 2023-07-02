@@ -1,6 +1,8 @@
 # AI Chat Streaming using Vercel AI SDK and Next.js
 
 This is a project that demonstrates how to integrate and use the OpenAI API with Next.js via the Vercel AI SDK. This allows you to integrate a chatbot into your web applications, using the power of OpenAI to generate responses.
+![image](https://github.com/Carolcol/chat-gpt-clone/assets/48607783/6d2fcaf7-8bb2-45d2-beda-1fd0d750466e)
+
 
 ## Getting Started
 
