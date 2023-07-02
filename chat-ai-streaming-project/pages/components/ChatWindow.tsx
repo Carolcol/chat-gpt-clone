@@ -8,6 +8,7 @@ import userIcon from "../../public/user-icon.png";
 import ReactMarkdown from "react-markdown";
 import { CodeBlock } from "./CodeBlock";
 import { useScroll } from "../lib/hooks/use-scroll";
+import { useFlicker } from "../lib/hooks/use-flicker";
 
 const flickerAnimation = keyframes`
   0% { opacity: 1; }
@@ -141,18 +142,8 @@ const ChatWindow = () => {
   const messagesContainerEl = useRef<HTMLDivElement>(null);
   const [isTypingCode, setIsTypingCode] = useState(false);
   useScroll(messagesContainerEl, messages);
+  useFlicker(setIsFlickering, messages);
 
-  useEffect(() => {
-    setIsFlickering(true);
-
-    const timeoutId = setTimeout(() => {
-      setIsFlickering(false);
-    }, 1300);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [messages]);
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -170,11 +161,7 @@ const ChatWindow = () => {
     <ChatArea>
       <Messages ref={messagesContainerEl}>
         {messagesCopy.map((m, index) => (
-          <MessageWrapper
-            ref={MessageSlot}
-            key={m.id}
-            isAssistant={m.role === "assistant"}
-          >
+          <MessageWrapper key={m.id} isAssistant={m.role === "assistant"}>
             <MessageContent>
               <div>
                 <Icon role={m.role} />
