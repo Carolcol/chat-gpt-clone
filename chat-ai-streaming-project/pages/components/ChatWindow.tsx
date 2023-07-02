@@ -1,9 +1,8 @@
 import styled, { keyframes } from "styled-components";
-
 import { useChat } from "ai/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import gptIcon from "../../public/download.jpg";
+import gptIcon from "../../public/gpt-icon.jpg";
 import userIcon from "../../public/user-icon.png";
 import ReactMarkdown from "react-markdown";
 import { CodeBlock } from "./CodeBlock";
@@ -45,6 +44,7 @@ const MessageWrapper = styled.div<MessageTextProps>`
   font-size: 13px;
   color: #4a4949;
 `;
+
 const Messages = styled.div`
   overflow: auto;
   ::-webkit-scrollbar {
@@ -284,7 +284,7 @@ const Icon: React.FC<IconProps> = ({ role }) => {
   );
 };
 
-const Flicker: React.FC = () => {
+const Flicker = () => {
   return (
     <Cursor viewBox="8 4 8 16" xmlns="http://www.w3.org/2000/svg">
       <rect x="10" y="6" width="4" height="12" fill="#292828" />
