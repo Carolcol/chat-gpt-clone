@@ -1,15 +1,21 @@
 import { FC, memo } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import styled from "styled-components";
 
 interface Props {
   language: string;
   value: string;
 }
 
+const CodeContainer = styled.div`
+  max-width: 600px;
+  overflow-x: auto;
+`;
+
 const CodeBlock: FC<Props> = memo(({ language, value }) => {
   return (
-    <div className="codeblock relative w-full bg-zinc-950 font-sans">
+    <CodeContainer>
       <SyntaxHighlighter
         language={language}
         style={coldarkDark}
@@ -21,7 +27,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
       >
         {value}
       </SyntaxHighlighter>
-    </div>
+    </CodeContainer>
   );
 });
 
