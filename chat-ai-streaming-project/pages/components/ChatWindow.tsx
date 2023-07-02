@@ -23,15 +23,15 @@ const ChatArea = styled.div`
   height: 100vh;
 `;
 
+const GptChatIcon = styled.img`
+  height: 22px;
+`;
+
 const UserInputContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
 `;
-
-type MessageTextProps = {
-  isAssistant: boolean;
-};
 
 const MessageWrapper = styled.div<MessageTextProps>`
   background-color: ${(props) =>
@@ -90,12 +90,6 @@ const Cursor = styled.svg`
   animation-fill-mode: forwards;
 `;
 
-type Message = {
-  content?: string;
-  role: string;
-  id?: string;
-};
-
 const Message = styled.span`
   margin-left: 16px;
   margin-top: -10px;
@@ -115,9 +109,6 @@ const UserInputWrapper = styled.div`
   justify-content: center;
 `;
 
-type FlickeringTxtProps = {
-  isTypingCode: boolean;
-};
 const FlickeringTxt = styled.p<FlickeringTxtProps>`
   position: relative;
   :last-of-type::after {
@@ -135,6 +126,24 @@ const FlickeringTxt = styled.p<FlickeringTxtProps>`
 const Txt = styled.p`
   position: relative;
 `;
+
+type MessageTextProps = {
+  isAssistant: boolean;
+};
+
+type Message = {
+  content?: string;
+  role: string;
+  id?: string;
+};
+
+type FlickeringTxtProps = {
+  isTypingCode: boolean;
+};
+
+type IconProps = {
+  role: string;
+};
 
 type UserInputProps = {
   handleInputSubmit: (e: any) => void;
@@ -174,6 +183,7 @@ const UserInput: React.FC<UserInputProps> = ({
     </UserInputContainer>
   );
 };
+
 const ChatWindow = () => {
   const [isFlickering, setIsFlickering] = useState(false);
   const { messages, input, handleInputChange, append, setInput } = useChat();
@@ -263,14 +273,6 @@ const ChatWindow = () => {
       />
     </ChatArea>
   );
-};
-
-const GptChatIcon = styled.img`
-  height: 22px;
-`;
-
-type IconProps = {
-  role: string;
 };
 
 const Icon: React.FC<IconProps> = ({ role }) => {
