@@ -4,11 +4,6 @@ import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import styled from "styled-components";
 import { useCopyToClipBoard } from "../lib/hooks/use-copy-to-clipboard";
 
-interface Props {
-  language: string;
-  value: string;
-}
-
 const CodeContainer = styled.div`
   max-width: 570px;
   min-width: 570px;
@@ -43,6 +38,11 @@ const CopyCodeBtn = styled.button`
 type CopyCodeProps = {
   value: string;
 };
+
+interface Props {
+  language: string;
+  value: string;
+}
 
 const CopyCode: React.FC<CopyCodeProps> = ({ value }) => {
   const { isCopied, copyToClipboard } = useCopyToClipBoard({ value });

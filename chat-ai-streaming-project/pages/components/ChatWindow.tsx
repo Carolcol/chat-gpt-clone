@@ -7,6 +7,7 @@ import gptIcon from "../../public/download.jpg";
 import userIcon from "../../public/user-icon.png";
 import ReactMarkdown from "react-markdown";
 import { CodeBlock } from "./CodeBlock";
+import { useScroll } from "../lib/hooks/use-scroll";
 
 const flickerAnimation = keyframes`
   0% { opacity: 1; }
@@ -138,14 +139,10 @@ const ChatWindow = () => {
   const { messages, input, handleInputChange, append, setInput } = useChat();
   const [messagesCopy, setMessagesCopy] = useState<Message[]>(messages);
   const messagesContainerEl = useRef<HTMLDivElement>(null);
-  const MessageSlot = useRef<HTMLDivElement>(null);
   const [isTypingCode, setIsTypingCode] = useState(false);
+  useScroll(messagesContainerEl, messages);
 
   useEffect(() => {
-    const element = messagesContainerEl.current;
-    if (element) {
-      element.scrollTop = element.scrollHeight;
-    }
     setIsFlickering(true);
 
     const timeoutId = setTimeout(() => {
